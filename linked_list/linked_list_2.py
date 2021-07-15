@@ -74,7 +74,7 @@ class CLinkedList:
         self._head = self._head._next
     
     def insert_node_to_tail(self,new_node:Node):
-        self.insert_value_to_head(new_node.data)
+        self.insert_node_to_head(new_node)
         self._head = self._head._next
 
     def insert_value_after_node(self, node: Node, value: int):
