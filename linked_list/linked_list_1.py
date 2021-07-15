@@ -125,7 +125,8 @@ class SinglyLinkedList:
         self.delete_by_value(value)
 
     def delete_by_value(self, value: int): #删除所有为该值的节点，不会显示链表中是否存在该值
-        if not self._head or not value: #空链表或删除的值为空
+        if not self._head or value == None: #空链表或删除的值为空
+            # 大坑，不能写成 not value，如果value=0,那么not value就会进入下面的选择，实际数字0是有意义的
             print('empty linked list or value')
             return
         else:
@@ -137,13 +138,18 @@ class SinglyLinkedList:
             
             fake_head._next = self._head
             prev, current = fake_head, self._head
-            while current: #当前值不为尾节点
+            while current: #当前值不为空，即尾节点得next
                 if current.data != value:
                     prev._next = current
                     prev = prev._next
                 current = current._next
             if prev._next:
-                prev._next = None
+                
+                # 原书代码
+                # prev._next = None
+                #实际上这里的current就是等于None，因为上面的while就是在current=None的时候停止的，但后面写循环链表的时候发现这里写current好些
+
+                prev._next = current
             self._head = fake_head._next #该值正好是头节点
 
     # 原书代码
@@ -204,9 +210,12 @@ if __name__ == "__main__":
     l.delete_by_node(node11)
     print(node11)
     print(l)
+    l.delete_by_value(88)
+    print(l)
     node66 = Node(66)
     print(node66)
     node67 = l.find_by_index(0)
+    l.delete_by_node(node67)
     print(l)
     l.insert_node_to_head(node66)
     print(l)
