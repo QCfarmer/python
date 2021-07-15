@@ -3,6 +3,7 @@
 https://github.com/wangzheng0822/algo/blob/b2c1228ff915287ad7ebeae4355fa26854ea1557/python/06_linkedlist/singly_linked_list.py
 为理解给原书代码添加了注释和部分打印消息
 循环链表的实现
+改写了find方法，返回为bool，和单链表实现有亿点差别
 '''
 
 class Node:
