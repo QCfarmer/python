@@ -1,2 +1,5 @@
 linked_list_1为单链表
-2为循环链表
+
+linked_list_1_n为不同的细节的实现
+
+linked_list_2为循环链表
