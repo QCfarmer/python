@@ -181,3 +181,36 @@ class SinglyLinkedList:
     #         print(f"->{current.data}", end="")
     #         current = current._next
     #     print("\n", flush=True)
+
+if __name__ == "__main__":
+
+    # 测试单链表
+    l = SinglyLinkedList()
+    for i in range(15):
+        l.insert_value_to_head(i)
+    print(l)
+    node9 = l.find_by_value(9)
+    l.insert_value_to_tail(77)
+    node88 = Node(88)
+    l.insert_node_to_tail(node88)
+    print(l)
+    l.insert_value_before_node(node9, 20)
+    l.insert_value_before_node(node9, 16)
+    l.insert_value_before_node(node9, 16)
+    print(l)
+    l.delete_by_value(16)
+    print(l)
+    node11 = l.find_by_index(3)
+    l.delete_by_node(node11)
+    print(node11)
+    print(l)
+    node66 = Node(66)
+    print(node66)
+    node67 = l.find_by_index(0)
+    print(l)
+    l.insert_node_to_head(node66)
+    print(l)
+    l.delete_by_value(66)
+    print(l)
+    for value in l:
+        print(value)
