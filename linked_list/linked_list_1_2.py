@@ -169,7 +169,7 @@ class SinglyLinkedList:
                     prev = prev._next
                 current = current._next
             if prev._next:
-                prev._next = None
+                prev._next = current
             self._head = fake_head._next #该值正好是头节点
 
     # 原书代码
