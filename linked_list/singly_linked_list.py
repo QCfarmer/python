@@ -59,6 +59,8 @@ class SinglyLinkedList:
     def insert_node_to_tail(self,new_node:Node):
         if not new_node:
             return
+        elif self._head == None: #空链表
+            self.insert_node_to_head(new_node)
         else:
             p = self._head
             while p._next != None:
@@ -151,6 +153,17 @@ class SinglyLinkedList:
 
                 prev._next = current
             self._head = fake_head._next #该值正好是头节点
+    
+    def __add__(self,another):
+        '''
+        合并链表
+        '''
+        new = SinglyLinkedList()
+        for i in self:
+            new.insert_node_to_tail(Node(i))
+        for i in another:
+            new.insert_node_to_tail(Node(i))
+        return new
 
     # 原书代码
     # 通过复制链表节点的值实现打印
@@ -188,6 +201,49 @@ class SinglyLinkedList:
     #         current = current._next
     #     print("\n", flush=True)
 
+def reverse_linked_list(linked_list):
+    '''
+    反转单链表
+    '''
+    if linked_list._head == None:#原链表为空
+        return 'empty linked list'
+    elif linked_list._head._next == None:#原链表仅有一个节点
+        return linked_list
+    else:
+        rev = None
+        prev = None
+        new = SinglyLinkedList()
+        p = linked_list._head
+        while p._next != None:
+            rev = prev
+            prev = p
+            p = p._next
+            prev._next = rev
+        p._next = prev
+        new._head = p
+        linked_list._head = p
+        return linked_list
+
+def middle_node(linked_list:SinglyLinkedList) -> Node:
+    '''
+    实现求链表的中间结点
+    '''
+    if linked_list._head == None:
+        print('empty linked list')
+        return
+    elif linked_list._head._next == None: #只有一个节点
+        return linked_list._head
+    else:
+        slow_p = linked_list._head
+        fast_p = linked_list._head
+        while fast_p._next != None and fast_p._next._next != None:
+            slow_p = slow_p._next
+            fast_p = fast_p._next._next
+        # 偶数时取前一个
+        return slow_p
+        # 偶数时取后一个
+        # return slow_p._next
+
 if __name__ == "__main__":
 
     # 测试单链表
@@ -223,3 +279,13 @@ if __name__ == "__main__":
     print(l)
     for value in l:
         print(value)
+
+    k = reverse_linked_list(l)
+    print(k)
+    # 测试原链表是否反转
+    print(l)
+
+    m = l + k
+    print(m)
+
+    print(middle_node(m))
