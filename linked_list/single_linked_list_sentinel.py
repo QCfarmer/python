@@ -120,7 +120,7 @@ class SinglyLinkedList:
                 prev._next = None
     # 改写的方法，通过打印节点的信息打印整个链表
     def __repr__(self):
-        if self._head == None:
+        if self._head._next == None:
             return 'empty linked list'
         else:
             return '{}'.format(self._head._next)
