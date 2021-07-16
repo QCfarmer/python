@@ -3,18 +3,13 @@
 https://github.com/wangzheng0822/algo/blob/b2c1228ff915287ad7ebeae4355fa26854ea1557/python/06_linkedlist/singly_linked_list.py
 为理解给原书代码添加了注释和部分打印消息
 循环链表的实现
-改写了find方法，返回为bool，和单链表实现有亿点差别
+本来改写了find方法，返回为bool，后来发现还是不行，改回去了又
 '''
 
 class Node:
     def __init__(self, data, next_node=None):
         self.data = data
         self._next = next_node
-    def __repr__(self): #为实现打印链表，重写了节点的打印方法
-        if self._next == None:
-            return '{}'.format(self.data)
-        else:
-            return '{}->{}'.format(self.data,self._next)
 
 class CLinkedList:
     '''
@@ -23,21 +18,21 @@ class CLinkedList:
     def __init__(self) -> None:
         self._head = None
 
-    def find_by_value(self, value: int) -> bool:
+    def find_by_value(self, value: int) -> Node:
         p = self._head
         while p._next != self._head and p.data != value:
             p = p._next
         if p._next == self._head and p.data != value:
             print('no such node')
-            return False
+            return
         else:
-            return True
+            return p
 
-    def find_by_node(self, node: Node) -> bool:
+    def find_by_node(self, node: Node) -> Node:
         return self.find_by_value(node.data)
 
     # 循环链表不知道按索引查找是否还有意义
-    def find_by_index(self, index: int) -> bool:
+    def find_by_index(self, index: int) -> Node:
         p = self._head
         position = 0
         while p._next != self._head and position != index:
@@ -45,10 +40,9 @@ class CLinkedList:
             position += 1
         if position < index:
             print('index out of range')
-            return False
+            return
         else:
-            print('{}->{}'.format(p.data,p._next.data))
-            return True
+            return p
     
     def insert_value_to_head(self, value: int):
         new_node = Node(value)
@@ -97,14 +91,14 @@ class CLinkedList:
         if not self._head or not node or not new_node: #空链表
             print('empty linked list or node or new_node')
             return
-        elif self._head.data == node.data: #该节点为头节点
+        elif self._head == node.data: #该节点为头节点
             self.insert_node_to_head(new_node)
             return
         else:
             current = self._head
-            while current._next != self._head and current._next.data != node.data: #在尾节点之前寻找该节点
+            while current._next != self._head and current._next != node: #在尾节点之前寻找该节点
                 current = current._next
-            if current._next == self._head and current.data != node.data: #没有找到该节点
+            if current._next == self._head and current != node: #没有找到该节点
                 print('no such node')
                 return
             else:
@@ -173,27 +167,23 @@ if __name__ == "__main__":
         l.insert_value_to_head(i)
     print(l)
     node9 = l.find_by_value(9)
-    print(node9)
+    # print(node9)
     l.insert_value_to_tail(77)
     node88 = Node(88)
     l.insert_node_to_tail(node88)
     print(l)
-    node10 = Node(10)
-    l.insert_value_before_node(node10, 20)
-    print(l)
-    l.insert_value_before_node(node10, 16)
-    print(l)
-    l.insert_value_before_node(node10, 16)
+    l.insert_value_before_node(node9, 20)
+    l.insert_value_before_node(node9, 16)
+    l.insert_value_before_node(node9, 16)
     print(l)
     l.delete_by_value(16)
     print(l)
-    node11 = Node(11)
-    l.delete_by_node(node11)
-    print(node11)
+    l.delete_by_node(node9)
     print(l)
-    node66 = Node(66)
+    node14 = l.find_by_index(0)
     l.delete_by_node(Node(14))
     print(l)
+    node66 = Node(66)
     l.insert_node_to_head(node66)
     print(l)
     l.delete_by_value(66)
