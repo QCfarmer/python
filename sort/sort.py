@@ -1,5 +1,6 @@
 '''
 实现冒泡排序、插入排序、选择排序、归并排序、快速排序
+实现O(n)时间复杂度内找到一组数据的第K大元素
 '''
 
 def bubble_sort(alist):
@@ -132,6 +133,56 @@ def quick_sort(alist):
         big = [i for i in alist if i > tmp]
         return quick_sort(small) + [tmp] + quick_sort(big)
 
+# def kth_element(alist,k):
+#     '''
+#     找到一组数据的第K大元素
+#     '''
+#     if len(alist) < 1:
+#         print('empty list')
+#         return
+#     elif k > len(alist) or k < 1:
+#         print('k out of range')
+#         return
+#     else:
+#         pivot = alist[-1]
+#         tmp = alist[:]
+#         tmp.pop()
+#         small = [i for i in tmp if i <= pivot]
+#         big = [i for i in tmp if i > pivot]
+#         if k == len(small)+1:
+#             return pivot
+#         elif k > len(small)+1:
+#             return kth_element(big,k-len(small)-1)
+#         else:
+#             return kth_element(small,k)
+
+def kth_element(alist,k):
+    '''
+    找到一组数据的第K大元素
+    原地分区
+    '''
+    if len(alist) < 1:
+        print('empty list')
+        return
+    elif k > len(alist) or k < 1:
+        print('k out of range')
+        return
+    else:
+        i = 0
+        pivot = len(alist) - 1
+        for j in range(0,pivot):
+            if alist[j] <= alist[pivot]:
+                alist[i],alist[j] = alist[j],alist[i]
+                i += 1
+        alist[pivot],alist[i] = alist[i],alist[pivot]
+        pivot = i
+        if k == pivot+1:
+            return alist[pivot]
+        elif k > pivot+1:
+            return kth_element(alist[pivot+1:],k-pivot-1)
+        else:
+            return kth_element(alist[:pivot],k)
+
 if __name__ == '__main__':
     print('-------测试冒泡排序-------')
     a = [4,5,6,3,2,1]
@@ -149,10 +200,21 @@ if __name__ == '__main__':
     print(a)
 
     print('-------测试归并排序-------')
-    a = [3,2,1]
+    a = [4,5,6,3,2,1]
     merge_sort(a)
     print(a)
 
     print('-------测试快速排序-------')
     a = [4,5,6,3,2,1]
     print(quick_sort(a))
+
+    print('-------测试查找第K大元素-------')
+    a = [4,5,6,3,2,1]
+    print(kth_element(a,1))
+    print(kth_element(a,2))
+    # print(a)
+    print(kth_element(a,3))
+    print(kth_element(a,4))
+    print(kth_element(a,5))
+    print(kth_element(a,6))
+    print(kth_element(a,7))
