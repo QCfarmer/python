@@ -1,6 +1,7 @@
 '''
 实现冒泡排序、插入排序、选择排序、归并排序、快速排序
 实现O(n)时间复杂度内找到一组数据的第K大元素
+计数排序
 '''
 
 def bubble_sort(alist):
@@ -183,6 +184,33 @@ def kth_element(alist,k):
         else:
             return kth_element(alist[:pivot],k)
 
+def counting_sort(alist):
+    if len(alist) <= 1:
+        return
+    else:
+        max = alist[0]
+        for i in range(1,len(alist)):
+            if max < alist[i]:
+                max = alist[i]
+        c = [None] * (max+1) #计数数组
+        for i in range(0,max+1):
+            c[i] = 0
+        # 计算每个元素的个数，放入数组c中
+        for i in range(0,len(alist)):
+            c[alist[i]] += 1
+        # 依次累加
+        for i in range(1,max+1):
+            c[i] = c[i-1] + c[i]
+        # 临时数组r，存储排序之后的结果
+        r = [None] * len(alist)
+        for i in range(len(alist)-1,-1,-1):
+            index = c[alist[i]] - 1
+            r[index] = alist[i]
+            c[alist[i]] -= 1
+        # 将结果复制给数组a
+        for i in range(0,len(alist)):
+            alist[i] = r[i]
+
 if __name__ == '__main__':
     print('-------测试冒泡排序-------')
     a = [4,5,6,3,2,1]
@@ -218,3 +246,8 @@ if __name__ == '__main__':
     print(kth_element(a,5))
     print(kth_element(a,6))
     print(kth_element(a,7))
+
+    print('-------测试计数排序-------')
+    a = [4,5,6,3,2,1]
+    counting_sort(a)
+    print(a)
