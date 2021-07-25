@@ -269,13 +269,13 @@ def binary_search_re_cir(alist,value):
                     return mid
                 else:
                     high = mid - 1
-            elif alist[low] > alist[mid]: #右边有序
+            elif alist[low] > alist[mid] and alist[mid] != value: #右边有序
                 if alist[mid] < value and value <= alist[high]:
                     low = mid + 1
                 else:
                     high = mid - 1
             else: #左边有序
-                if alist[low] <= value and value < alist[mid]:
+                if value < alist[mid] and alist[low] <= value:
                     high = mid - 1
                 else:
                     low = mid + 1
