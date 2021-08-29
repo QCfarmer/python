@@ -159,6 +159,36 @@ def permute(nums):
 
 
 
+def permutation2(nums):
+    '''
+    全排列
+    有重复元素
+    '''
+    nums.sort()
+    n = len(nums)
+    res = []
+    path = []
+    visited = [0] * n
+    def back_track(cur):
+        if cur == n:
+            res.append(path[:])
+            return
+        for i in range(0, n):
+            if visited[i] == 1:
+                continue
+            elif i > 0 and nums[i] == nums[i-1] and visited[i-1] == 0:
+                continue
+            else:
+                path.append(nums[i])
+                visited[i] = 1
+                back_track(cur + 1)
+                path.pop()
+                visited[i] = 0
+    back_track(0)
+    return res
+
+
+
 def subset1(nums):
     '''
     所有子集
@@ -315,6 +345,77 @@ def readBinaryWatch(turnedOn: int):
 
 
 
+def max_time(nums):
+    '''
+    笔试题，和力扣949相似
+    给定一个数组，里面有6个整数，求这个数组能够表示的最大24进制的时间是多少，输出这个时间，无法表示输出invalid。
+    输入为一个整数数组，数组内有六个整数。输入整数数组长度为6，不需要考虑其他长度，元素值为0或者正整数，6个数字每个数字只能使用一次。
+    输出一个为24小时格式的时间，或者字符串"invalid"。
+    输入
+    [0,2,3,0,5,6]
+    输出
+    23:56:00
+    输入
+    [9,9,9,9,9,9]
+    输出
+    invalid
+    忽略输入写下解法
+    '''
+    res = []
+    path = []
+    visited = [0] * 6
+    def back_track(cur):
+        nonlocal nums,path,res
+        if cur == 6:
+            if path[0:2] > [2,3] or path[2:4] > [5,9] or path[4:6] > [5,9]:
+                return
+            if path > res:
+                res = path[:]
+        for i in range(0,6):
+            if visited[i] == 1:
+                continue
+            path.append(nums[i])
+            visited[i] = 1
+            back_track(cur+1)
+            visited[i] = 0
+            path.pop()
+    back_track(0)
+    if res != []:
+        return '{}{}:{}{}:{}{}'.format(res[0],res[1],res[2],res[3],res[4],res[5])
+    else:
+        return 'invalid'
+
+def largestTimeFromDigits(arr:list) -> str:
+    '''
+    力扣949
+    '''
+    res = []
+    path = []
+    visited = [0] * 4
+    def back_track(cur):
+        nonlocal arr,path,res
+        if cur == 4:
+            if path[0:2] > [2,3] or path[2:4] > [5,9]:
+                return
+            if path > res:
+                res = path[:]
+        for i in range(0,4):
+            if visited[i] == 1:
+                continue
+            path.append(arr[i])
+            visited[i] = 1
+            back_track(cur+1)
+            visited[i] = 0
+            path.pop()
+    back_track(0)
+    if res != []:
+        return '{}{}:{}{}'.format(res[0],res[1],res[2],res[3])
+    else:
+        return ''
+
+
+
+
 if __name__ == "__main__":
     # print(queens(8))
     # print(pack_0_1([2,4,5,6],14))
@@ -322,9 +423,9 @@ if __name__ == "__main__":
     # print(permutation([]))
     # print(permutation([1]))
     # print(permutation([1,2,3,4]))
-    # print(permutation2([]))
-    # print(permutation2([1]))
-    # print(permutation2([1,1,2]))
+    print(permutation2([]))
+    print(permutation2([1]))
+    print(permutation2([1,1,2]))
 
     # print(subset1([1,2,3]))
     # print(subset([1,2,3]))
@@ -344,5 +445,14 @@ if __name__ == "__main__":
     # print(subsetXORSum([5,1,6]))
     # print(subsetXORSum([3,4,5,6,7,8]))
 
-    print(readBinaryWatch(1))
-    print(readBinaryWatch(9))
+    # print(readBinaryWatch(1))
+    # print(readBinaryWatch(9))
+
+    # print(max_time([2,3,0,0,5,9]))
+    # print(max_time([9,9,9,9,9,9]))
+    # print(max_time([4,9,1,6,9,2]))
+    # print(max_time([3,2,2,3,6,0]))
+    # print(max_time([1,8,6,4,5,8]))
+    # print(max_time([9,8,9,0,0,0]))
+    # print(max_time([1,8,9,0,0,9]))
+    # print(max_time([0,0,0,0,0,0]))
